@@ -1,22 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { useState } from "react";
+
+function Box() {
+  const [clicked, setClicked] = useState(false);
+
+  return (
+    <div>
+      {clicked ? (
+        <button
+          className="box-clicked"
+          onClick={() => setClicked(!clicked)}
+        ></button>
+      ) : (
+        <button
+          className="box-unclicked"
+          onClick={() => setClicked(!clicked)}
+        ></button>
+      )}
+    </div>
+  );
+}
+
+function Row() {
+  return (
+    <div className="row">
+      <Box />
+      <Box />
+      <Box />
+      <Box />
+      <Box />
+      <Box />
+      <Box />
+      <Box />
+    </div>
+  );
+}
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <h2>8 Red Squares</h2>
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Fit 8 Red Squares below so that no row, column, or diagonal have more
+          than one red square.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Row />
+        <Row />
+        <Row />
+        <Row />
+        <Row />
+        <Row />
+        <Row />
+        <Row />
       </header>
     </div>
   );
