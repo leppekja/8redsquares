@@ -36,6 +36,29 @@ function Board(props) {
   return <div className="board">{squaresList}</div>;
 }
 
+function BoardSize(props) {
+  const [current, setCurrent] = useState(props.boardSize);
+
+  const sizes = [...Array(5).keys()];
+
+  const boardSizes = sizes.map((n) => {
+    if (n + 4 === current) {
+      return (
+        <button key={n} className="boardSizeChangeBoxCurrent">
+          {n + 4}
+        </button>
+      );
+    } else {
+      return (
+        <button key={n} className="boardSizeChangeBox">
+          {n + 4}
+        </button>
+      );
+    }
+  });
+  return <div className="boardSizeList">{boardSizes}</div>;
+}
+
 function App() {
   const [boardSize, setBoardSize] = useState(8);
   const [squares, setSquares] = useState(Array(64).fill("box-unclicked"));
@@ -49,16 +72,26 @@ function App() {
     <div>
       <div className="header">
         <h2>8 Red Squares</h2>
-        <p>
-          Fit red squares below so that no row, column, or diagonal has more
+        <div className="directionsHeader">
+          fit red squares below so that no row, column, or diagonal has more
           than one red square.
-        </p>
-        <p>Your current board size is 8 x 8.</p>
+        </div>
+        <div className="boardSizeHeader">current board size.</div>
+      </div>
+      <div className="playArea">
+        <BoardSize boardSize={boardSize} setCurrent={setBoardSize} />
+        <button className="resetBoard" onClick={() => resetBoard(setSquares)}>
+          reset board.
+        </button>
         <Board squares={squares} setSquares={setSquares} />
-        {solved ? <div>"Nice Work!"</div> : <div></div>}
+        {solved ? <div>Nice Work!</div> : <div></div>}
       </div>
     </div>
   );
+}
+
+function resetBoard(setSquares) {
+  setSquares(Array(64).fill("box-unclicked"));
 }
 
 function checkSquares(squaresArray) {
