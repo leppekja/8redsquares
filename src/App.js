@@ -39,6 +39,10 @@ function Board(props) {
 function BoardSize(props) {
   const [current, setCurrent] = useState(props.boardSize);
 
+  useEffect(() => {
+    setCurrent(props.boardSize);
+  }, [props]);
+
   const sizes = [...Array(5).keys()];
 
   const boardSizes = sizes.map((n) => {
@@ -67,14 +71,30 @@ function BoardSize(props) {
 }
 
 function App() {
-  const [boardSize, setBoardSize] = useState(8);
+  const [boardSize, setBoardSize] = useState(4);
   const [squares, setSquares] = useState(
     Array(boardSize * boardSize).fill("box-unclicked")
   );
   const [solved, setSolved] = useState(false);
 
   useEffect(() => {
-    setSolved(checkSquares(squares, boardSize));
+    let solutionStatus = checkSquares(squares, boardSize);
+    setSolved(solutionStatus);
+    if (solutionStatus) {
+      setSquares(Array(boardSize * boardSize).fill("box-clicked"));
+
+      setTimeout(
+        () => setSquares(Array(boardSize * boardSize).fill("box-unclicked")),
+        500
+      );
+
+      if (boardSize < 8) {
+        setTimeout(() => {
+          setBoardSize(boardSize + 1);
+        }, 1000);
+      }
+    }
+    // setSolved(checkSquares(squares, boardSize));
   }, [squares]);
 
   useEffect(() => {
@@ -104,7 +124,7 @@ function App() {
           squares={squares}
           setSquares={setSquares}
         />
-        {solved ? <div className="solvedText">Nice Work!</div> : <div></div>}
+        {/* {solved ? <div className="solvedText">Nice Work!</div> : <div></div>} */}
       </div>
     </div>
   );
