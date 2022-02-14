@@ -33,7 +33,7 @@ function Board(props) {
     );
   });
 
-  return <div className="board">{squaresList}</div>;
+  return <div className={"board" + props.boardSize}>{squaresList}</div>;
 }
 
 function BoardSize(props) {
@@ -50,7 +50,14 @@ function BoardSize(props) {
       );
     } else {
       return (
-        <button key={n} className="boardSizeChangeBox">
+        <button
+          key={n}
+          onClick={() => {
+            props.setBoardSize(n + 4);
+            setCurrent(n + 4);
+          }}
+          className="boardSizeChangeBox"
+        >
           {n + 4}
         </button>
       );
@@ -61,43 +68,55 @@ function BoardSize(props) {
 
 function App() {
   const [boardSize, setBoardSize] = useState(8);
-  const [squares, setSquares] = useState(Array(64).fill("box-unclicked"));
+  const [squares, setSquares] = useState(
+    Array(boardSize * boardSize).fill("box-unclicked")
+  );
   const [solved, setSolved] = useState(false);
 
   useEffect(() => {
-    setSolved(checkSquares(squares));
-  }, squares);
+    setSolved(checkSquares(squares, boardSize));
+  }, [squares]);
+
+  useEffect(() => {
+    setSquares(Array(boardSize * boardSize).fill("box-unclicked"));
+  }, [boardSize]);
 
   return (
     <div>
       <div className="header">
         <h2>8 Red Squares</h2>
         <div className="directionsHeader">
-          fit red squares below so that no row, column, or diagonal has more
+          Fit red squares below so that no row, column, or diagonal has more
           than one red square.
         </div>
         <div className="boardSizeHeader">current board size.</div>
       </div>
       <div className="playArea">
-        <BoardSize boardSize={boardSize} setCurrent={setBoardSize} />
-        <button className="resetBoard" onClick={() => resetBoard(setSquares)}>
+        <BoardSize boardSize={boardSize} setBoardSize={setBoardSize} />
+        <button
+          className="resetBoard"
+          onClick={() => resetBoard(boardSize, setSquares)}
+        >
           reset board.
         </button>
-        <Board squares={squares} setSquares={setSquares} />
-        {solved ? <div>Nice Work!</div> : <div></div>}
+        <Board
+          boardSize={boardSize}
+          squares={squares}
+          setSquares={setSquares}
+        />
+        {solved ? <div className="solvedText">Nice Work!</div> : <div></div>}
       </div>
     </div>
   );
 }
 
-function resetBoard(setSquares) {
-  setSquares(Array(64).fill("box-unclicked"));
+function resetBoard(boardSize, setSquares) {
+  setSquares(Array(boardSize * boardSize).fill("box-unclicked"));
 }
 
-function checkSquares(squaresArray) {
+function checkSquares(squaresArray, boardSize) {
   // https://course.ccs.neu.edu/cs5010sp15/files/Lesson%209.3%208%20Queens.pdf
   let selectedSquares = [];
-
   // Iterate through the board and grab the index of the selected squares
   for (let i = 0; i < squaresArray.length; i++) {
     if (squaresArray[i] === "box-clicked") {
@@ -105,9 +124,9 @@ function checkSquares(squaresArray) {
     }
   }
 
-  if (selectedSquares.length === 8) {
-    let rows = selectedSquares.map((n) => Math.floor(n / 8));
-    let columns = selectedSquares.map((n) => n % 8);
+  if (selectedSquares.length === boardSize) {
+    let rows = selectedSquares.map((n) => Math.floor(n / boardSize));
+    let columns = selectedSquares.map((n) => n % boardSize);
     let nwSeDiag = rows.map((n, i) => n + columns[i]);
     let neSwDiag = rows.map((n, i) => n - columns[i]);
 
