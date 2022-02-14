@@ -124,7 +124,7 @@ function App() {
           squares={squares}
           setSquares={setSquares}
         />
-        {/* {solved ? <div className="solvedText">Nice Work!</div> : <div></div>} */}
+        {solved ? <div className="solvedText">Nice Work!</div> : <div></div>}
       </div>
     </div>
   );
