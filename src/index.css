@@ -73,11 +73,27 @@ body {
   padding: 0px;
 }
 
+.board9 {
+  display: block;
+  width: 465px;
+  height: 465px;
+  margin: 10px 0px 0px 0px;
+  padding: 0px;
+}
+
+.board10 {
+  display: block;
+  width: 510px;
+  height: 510px;
+  margin: 10px 0px 0px 0px;
+  padding: 0px;
+}
+
 .box-clicked {
   background-color: rgb(121, 0, 0);
   transition: background-color 0.6s;
-  height: 45px;
-  width: 45px;
+  height: 0.1vw;
+  width: 0.1vw;
   color: white;
   margin-right: 2px;
   margin-bottom: 2px;
@@ -105,6 +121,16 @@ body {
   color: white;
 }
 
+.boardSizeChangeBoxSolved {
+  height: 45px;
+  width: 45px;
+  margin: 2px;
+  transition: background-color 1s, color 1s;
+  background-color: #4b7963;
+  border: 1px solid white;
+  color: white;
+}
+
 .boardSizeChangeBoxCurrent {
   height: 45px;
   width: 45px;
@@ -123,7 +149,7 @@ body {
 }
 
 .boardSizeHeader {
-  padding-left: 100px;
+  padding-left: 0px;
   font-size: calc(10px + 1vmin);
 }
 
@@ -133,10 +159,12 @@ body {
 
 .resetBoard {
   display: block;
+  height: 45px;
+  width: 90px;
   background-color: #282c34;
   border: 1px solid white;
   color: white;
-  margin-left: 160px;
+  margin-left: 0px;
 }
 
 code {

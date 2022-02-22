@@ -43,7 +43,13 @@ function BoardSize(props) {
     setCurrent(props.boardSize);
   }, [props]);
 
-  const sizes = [...Array(5).keys()];
+  let sizes;
+  // Add secret levels if primary levels are completed
+  if (props.levelsRemaining.length === 2) {
+    sizes = [...Array(7).keys()];
+  } else {
+    sizes = [...Array(5).keys()];
+  }
 
   const boardSizes = sizes.map((n) => {
     if (n + 4 === current) {
@@ -60,7 +66,11 @@ function BoardSize(props) {
             props.setBoardSize(n + 4);
             setCurrent(n + 4);
           }}
-          className="boardSizeChangeBox"
+          className={
+            props.levelsRemaining.indexOf(n + 4) >= 0
+              ? "boardSizeChangeBox"
+              : "boardSizeChangeBoxSolved"
+          }
         >
           {n + 4}
         </button>
@@ -76,6 +86,9 @@ function App() {
     Array(boardSize * boardSize).fill("box-unclicked")
   );
   const [solved, setSolved] = useState(false);
+  const [levelsRemaining, setLevelsRemaining] = useState([
+    4, 5, 6, 7, 8, 9, 10,
+  ]);
 
   useEffect(() => {
     let solutionStatus = checkSquares(squares, boardSize);
@@ -83,18 +96,31 @@ function App() {
     if (solutionStatus) {
       setSquares(Array(boardSize * boardSize).fill("box-clicked"));
 
+      if (levelsRemaining.indexOf(boardSize) >= 0) {
+        setLevelsRemaining(
+          levelsRemaining.filter((level) => level !== boardSize)
+        );
+      }
+
       setTimeout(
         () => setSquares(Array(boardSize * boardSize).fill("box-unclicked")),
         500
       );
 
-      if (boardSize < 8) {
-        setTimeout(() => {
-          setBoardSize(boardSize + 1);
-        }, 1000);
-      }
+      // if (boardSize < 8) {
+      //   setTimeout(() => {
+      //     setBoardSize(boardSize + 1);
+      //   }, 1000);
+      // }
+
+      setTimeout(() => {
+        if (levelsRemaining.indexOf(boardSize) === 0) {
+          setBoardSize(levelsRemaining[1]);
+        } else if (levelsRemaining.indexOf(boardSize) > 0) {
+          setBoardSize(levelsRemaining[0]);
+        }
+      }, 1000);
     }
-    // setSolved(checkSquares(squares, boardSize));
   }, [squares]);
 
   useEffect(() => {
@@ -109,21 +135,25 @@ function App() {
           Fit red squares below so that no row, column, or diagonal has more
           than one red square.
         </div>
-        <div className="boardSizeHeader">current board size.</div>
+        {/* <div className="boardSizeHeader">current board size.</div> */}
       </div>
       <div className="playArea">
-        <BoardSize boardSize={boardSize} setBoardSize={setBoardSize} />
+        <BoardSize
+          boardSize={boardSize}
+          setBoardSize={setBoardSize}
+          levelsRemaining={levelsRemaining}
+        />
+        <Board
+          boardSize={boardSize}
+          squares={squares}
+          setSquares={setSquares}
+        />
         <button
           className="resetBoard"
           onClick={() => resetBoard(boardSize, setSquares)}
         >
           reset board.
         </button>
-        <Board
-          boardSize={boardSize}
-          squares={squares}
-          setSquares={setSquares}
-        />
         {solved ? <div className="solvedText">Nice Work!</div> : <div></div>}
       </div>
     </div>
