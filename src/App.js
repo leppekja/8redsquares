@@ -45,7 +45,7 @@ function BoardSize(props) {
 
   let sizes;
   // Add secret levels if primary levels are completed
-  if (props.levelsRemaining.length === 2) {
+  if (props.levelsRemaining.length <= 2) {
     sizes = [...Array(7).keys()];
   } else {
     sizes = [...Array(5).keys()];
@@ -114,9 +114,15 @@ function App() {
       // }
 
       setTimeout(() => {
-        if (levelsRemaining.indexOf(boardSize) === 0) {
+        if (
+          levelsRemaining.length > 1 &&
+          levelsRemaining.indexOf(boardSize) === 0
+        ) {
           setBoardSize(levelsRemaining[1]);
-        } else if (levelsRemaining.indexOf(boardSize) > 0) {
+        } else if (
+          levelsRemaining.length > 1 &&
+          levelsRemaining.indexOf(boardSize) > 0
+        ) {
           setBoardSize(levelsRemaining[0]);
         }
       }, 1000);
@@ -132,10 +138,10 @@ function App() {
       <div className="header">
         <h2>8 Red Squares</h2>
         <div className="directionsHeader">
-          Fit red squares below so that no row, column, or diagonal has more
-          than one red square.
+          {levelsRemaining.length > 2
+            ? "Fit red squares below so that no row, column, or diagonal has more than one red square."
+            : "Congratulations! Try the bonus levels..."}
         </div>
-        {/* <div className="boardSizeHeader">current board size.</div> */}
       </div>
       <div className="playArea">
         <BoardSize
