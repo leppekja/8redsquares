@@ -92,8 +92,8 @@ body {
 .box-clicked {
   background-color: rgb(121, 0, 0);
   transition: background-color 0.6s;
-  height: 0.1vw;
-  width: 0.1vw;
+  height: 45px;
+  width: 45px;
   color: white;
   margin-right: 2px;
   margin-bottom: 2px;
