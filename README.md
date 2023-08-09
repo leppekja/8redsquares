@@ -1,7 +1,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-It is an example project to learn the basics of React and deploying to a server, adapting the 8 Red Queens problem. [Play the game here](https://master.d3m4a980qac2ze.amplifyapp.com/)
+It is an example project to learn the basics of React and deploying to a server, adapting the 8 Red Queens problem. The site is no longer hosted anywhere. 
 
 Loading Page
 
