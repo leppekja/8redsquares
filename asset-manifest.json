@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/8redsquares/static/css/main.73aa37c8.css",
+    "main.js": "/8redsquares/static/js/main.2853ee67.js",
+    "index.html": "/8redsquares/index.html",
+    "main.73aa37c8.css.map": "/8redsquares/static/css/main.73aa37c8.css.map",
+    "main.2853ee67.js.map": "/8redsquares/static/js/main.2853ee67.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.73aa37c8.css",
+    "static/js/main.2853ee67.js"
+  ]
+}
